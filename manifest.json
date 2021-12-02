@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Enhanced Eneba/G2A",
+  "version": "0.1.0",
+  "description": "Gift Cards conversion rates",
+  "permissions": [
+    "tabs", 
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.g2a.com/*",
+    "https://www.eneba.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
