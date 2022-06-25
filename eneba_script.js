@@ -1,6 +1,6 @@
 function getVals() {
 	let vals = []
-	for (w of document.querySelectorAll(".pFaGHa.qlczWs.WpvaUk")) {
+	for (w of document.querySelectorAll(".pFaGHa.WpvaUk")) {
 		const title = w.children[0].querySelector("div.tUUnLz div.x4MuJo div.lirayz span").textContent
 		let regex = title.match(/\d{1,4} TRY/gm)
 		if (regex) {

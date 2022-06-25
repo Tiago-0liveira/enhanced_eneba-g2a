@@ -1,7 +1,7 @@
 const data = []
 for (card of document.querySelectorAll("ul[class*=indexes__StyledList] li[class*=indexes__ProductCardStyledWrapper]")) {
     const sel = card.querySelector("h3")
-    if (sel != null && typeof sel.textContent == "string" && sel.textContent.match(/Steam Gift Card \d* TL ([\-]?)([\s]?)Steam Key (\-?)([\s]?)TURKEY/gm)) {
+    if (sel != null && typeof sel.textContent == "string" && sel.textContent.match(/\d+ TL/gm)) {
         const tl_prices = sel.textContent.match(/\d* TL/gm)
         if (tl_prices.length > 0) {   
             const tl_price = Number(tl_prices[0].replace(" TL", ""))
