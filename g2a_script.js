@@ -1,48 +1,40 @@
-const data = []
-for (card of document.querySelectorAll("ul[class*=indexes__StyledList] li[class*=indexes__ProductCardStyledWrapper]")) {
-    const sel = card.querySelector("h3")
-    if (sel != null && typeof sel.textContent == "string" && sel.textContent.match(/\d+ TL/gm)) {
-        const tl_prices = sel.textContent.match(/\d* TL/gm)
-        if (tl_prices.length > 0) {   
-            const tl_price = Number(tl_prices[0].replace(" TL", ""))
-            if (card.children != undefined && card.children.length > 0) {
-                const eur_prices = card.children[1].querySelector("div > div > span > span").textContent.match(/[+-]?([0-9]*[.])?[0-9]+/gm)
-                if (eur_prices.length > 0) {
-                    const eur_price = Number(eur_prices[0])
-                    const to_add_element = card.children[1].querySelector("div > div > span")
-                    const rate_el = document.createElement("span")
-                    rate_el.style.paddingLeft = "6px"
-                    rate_el.style.color = "grey"
-                    rate_el.style.fontFamily = "monospace"
-                    rate_el.style.fontSize = "13px"
-    
-                    const rate = (eur_price/tl_price).toFixed(3)
-                    rate_el.textContent = "Rate: "
-                    const rate_span = document.createElement("span")
-                    rate_span.style.fontSize = "18px"
-                    rate_span.style.fontWeight = "bold"
-                    rate_span.textContent = rate
-                    rate_el.appendChild(rate_span)
-                    to_add_element.appendChild(rate_el)
-                    data.push({
-                        rate,
-                        rate_span
-                    })
-    
-                }
-            }
-        }
+const base = "li[name^=\"Steam Gift Card\"]"
+const price = "span[data-locator=zth-price]"
+const lis = document.querySelectorAll(base)
+const prices = document.querySelectorAll(base + " " + price)
+let theVals = []
+for (let i = 0; i<lis.length; i++) {
+    const x = lis[i]
+    const tl_prices = x.getAttribute("name").match(/\d* TL/gm)
+    if (tl_prices.length > 0) {   
+        const tl_price = Number(tl_prices[0].replace(" TL", ""))
+        const eur_price = parseFloat(prices[i].textContent.replace("€ ", ""))
+        const rate = (eur_price / tl_price).toFixed(3)
+        theVals.push({element: prices[i].parentElement, rate})
+        //console.log(tl_price, eur_price, rate)
     }
 }
-console.log(`data -> `, data)
-const min = Math.min(...data.map(d => d.rate))
-const max = Math.max(...data.map(d => d.rate))
 
-data.forEach(e => {
-	console.log(e)
-	if (min == e.rate) {
-		e.rate_span.style.color = "#5DDB00"
-	} else if (max == e.rate) {
-		e.rate_span.style.color = "#E70000"
+
+const max = Math.max(...theVals.map(v => v.rate))
+const min = Math.min(...theVals.map(v => v.rate))
+theVals.forEach(x => {
+    x.element.classList.add("parentDiv")
+	const rateEl = document.createElement("div")
+    const label = document.createElement("span")
+    const textComp = document.createElement("span")
+    rateEl.classList.add("rate")
+    label.textContent = "Rate: "
+    label.classList.add("label")
+    rateEl.appendChild(label)
+    rateEl.appendChild(textComp)
+    textComp.textContent = x.rate
+    textComp.classList.add("rate")
+    if (x.rate == max) {
+		textComp.classList.add("rmax")
 	}
+	if (x.rate == min) {
+		textComp.classList.add("rmin")
+	}
+	x.element.appendChild(rateEl)
 })

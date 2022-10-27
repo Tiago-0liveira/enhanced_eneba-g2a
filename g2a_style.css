@@ -1,0 +1,22 @@
+li[name^="Steam Gift Card"] div.parentDiv div.rate {
+	font-size: 15px;
+	text-align: center;
+	padding: 0 3px;
+	font-weight: bold;
+}
+
+li[name^="Steam Gift Card"] div.parentDiv div.rate span.label {
+	color: black;
+}
+
+li[name^="Steam Gift Card"] div.parentDiv div.rate span:not(.rmax):not(.rmin):not(.label) {
+	color: gray;
+}
+
+li[name^="Steam Gift Card"] div.parentDiv div.rate span.rmax {
+	color: #E70000;
+}
+
+li[name^="Steam Gift Card"] div.parentDiv div.rate span.rmin {
+	color: #5DDB00;
+}
